@@ -1,0 +1,126 @@
+spring:
+  application:
+    name: ${APP_NAME:monitoring-devops}
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/devops}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: ${DB_DRIVER:org.postgresql.Driver}
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    properties:
+      hibernate:
+        dialect: ${JPA_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
+  mail:
+    host: ${MAIL_HOST:smpt.gmail.com}
+    port: ${MAIL_PORT:465}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    protocol: ${MAIL_PROTOCOL:smtps}
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SMTP_AUTH:true}
+          starttls:
+            enable: ${MAIL_STARTTLS_ENABLE:false}
+          ssl:
+            enable: ${MAIL_SSL_ENABLE:true}
+            trust: ${MAIL_SSL_TRUST:"*"}
+        transport:
+          protocol: ${MAIL_TRANSPORT_PROTOCOL:smtps}
+        debug: ${MAIL_DEBUG:false}
+  thymeleaf:
+    check-template-location: ${THYMELEAF_CHECK_LOCATION:true}
+    prefix: ${THYMELEAF_PREFIX:classpath:/templates/}
+    suffix: ${THYMELEAF_SUFFIX:.html}
+    mode: ${THYMELEAF_MODE:HTML}
+    encoding: ${THYMELEAF_ENCODING:UTF-8}
+    cache: ${THYMELEAF_CACHE:false}
+
+server:
+  port: ${SERVER_PORT:8080}
+
+application:
+  name: ${APP_NAME:monitoring-devops}
+  version: ${APP_VERSION:1.0.0}
+
+monitoring:
+  host:
+    enabled: ${MONITORING_HOST_ENABLED:true}
+    interval: ${MONITORING_HOST_INTERVAL:15000}
+    thresholds:
+      cpu: ${MONITORING_THRESHOLD_CPU:80}
+      ram: ${MONITORING_THRESHOLD_RAM:95}
+      disk: ${MONITORING_THRESHOLD_DISK:80}
+
+endpoints:
+  http:
+    enabled: ${ENDPOINTS_HTTP_ENABLED:false}
+    default-interval: ${ENDPOINTS_HTTP_INTERVAL:15000}
+    default-timeout: ${ENDPOINTS_HTTP_TIMEOUT:5000}
+    default-threshold: ${ENDPOINTS_HTTP_THRESHOLD:1000}
+    default-expected-status: ${ENDPOINTS_HTTP_EXPECTED_STATUS:200}
+  websocket:
+    enabled: ${ENDPOINTS_WS_ENABLED:false}
+    default-interval: ${ENDPOINTS_WS_INTERVAL:15000}
+    default-timeout: ${ENDPOINTS_WS_TIMEOUT:5000}
+  database:
+    enabled: ${ENDPOINTS_DB_ENABLED:false}
+    default-interval: ${ENDPOINTS_DB_INTERVAL:15000}
+    default-threshold: ${ENDPOINTS_DB_THRESHOLD:1000}
+
+notifications:
+  email:
+    enabled: ${NOTIFICATIONS_EMAIL_ENABLED:false}
+    recipients: ${NOTIFICATIONS_EMAIL_RECIPIENTS:alperarinc@gmail.com}
+    sender: ${NOTIFICATIONS_EMAIL_SENDER:no-reply@gmail.com}
+    templates:
+      warning: ${NOTIFICATIONS_EMAIL_TEMPLATE_WARNING:warning-email}
+      critical: ${NOTIFICATIONS_EMAIL_TEMPLATE_CRITICAL:critical-email}
+  zabbix:
+    enabled: ${NOTIFICATIONS_ZABBIX_ENABLED:false}
+    server: ${NOTIFICATIONS_ZABBIX_SERVER:zabbix.example.com}
+    port: ${NOTIFICATIONS_ZABBIX_PORT:10051}
+    host: ${NOTIFICATIONS_ZABBIX_HOST:Monitoring Tool}
+    items:
+      cpu: ${NOTIFICATIONS_ZABBIX_ITEM_CPU:system.cpu.util}
+      memory: ${NOTIFICATIONS_ZABBIX_ITEM_MEMORY:vm.memory.util}
+      disk: ${NOTIFICATIONS_ZABBIX_ITEM_DISK:vfs.fs.size}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${MANAGEMENT_ENDPOINTS_INCLUDE:health,info,prometheus,metrics}
+  endpoint:
+    health:
+      show-details: ${MANAGEMENT_HEALTH_DETAILS:always}
+    prometheus:
+      enabled: ${MANAGEMENT_PROMETHEUS_ENABLED:true}
+  metrics:
+    export:
+      prometheus:
+        enabled: ${MANAGEMENT_METRICS_PROMETHEUS_ENABLED:true}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+    doc-expansion: none
+  api-docs:
+    path: /api-docs
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+
+logging:
+  level:
+    root: ${LOGGING_LEVEL_ROOT:debug}
+    com.monitoring: ${LOGGING_LEVEL_APP:INFO}
+    org.springframework: ${LOGGING_LEVEL_SPRING:INFO}
+    org.hibernate: ${LOGGING_LEVEL_HIBERNATE:WARN}
+    org.springframework.security: DEBUG
+  file:
+    name: ${LOGGING_FILE_NAME:./logs/monitoring-devops.log}
